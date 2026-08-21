@@ -6,15 +6,15 @@
     <title>Bill Search</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --border-color: rgba(255, 255, 255, 0.1);
-            --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
-            --text-main: #f8fafc;
-            --text-sub: #94a3b8;
+            --bg: #030712;
+            --card-bg: rgba(17, 24, 39, 0.7);
+            --border: rgba(255, 255, 255, 0.08);
+            --accent: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            --text: #f8fafc;
+            --sub-text: #94a3b8;
         }
 
         * {
@@ -25,26 +25,25 @@
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            background-color: var(--bg);
+            color: var(--text);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 40px 20px;
+            overflow-x: hidden;
             position: relative;
         }
 
-        .glow {
+        /* Ambient Glow Effects */
+        .glow-1 {
             position: absolute;
-            top: 15%;
-            left: 50%;
+            top: 20%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 500px;
-            height: 250px;
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(0,0,0,0) 70%);
-            filter: blur(60px);
-            z-index: 0;
+            width: 500px; height: 300px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, rgba(0,0,0,0) 70%);
+            filter: blur(80px); z-index: -1;
             pointer-events: none;
         }
 
@@ -59,134 +58,144 @@
 
         header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
 
         .logo {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 800;
-            background: var(--accent-gradient);
+            background: var(--accent);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -1px;
-            margin-bottom: 8px;
+            letter-spacing: -2px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 60px rgba(168, 85, 247, 0.3);
         }
 
         .subtitle {
-            color: var(--text-sub);
-            font-size: 0.95rem;
+            color: var(--sub-text);
+            font-size: 1rem;
+            font-weight: 400;
         }
 
-        /* Shortcuts */
-        .shortcuts {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            justify-content: center;
-        }
-
-        .shortcut-btn {
-            background: rgba(30, 41, 59, 0.8);
-            color: #cbd5e1;
-            border: 1px solid var(--border-color);
-            padding: 8px 16px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .shortcut-btn:hover {
-            background: #334155;
-            color: #ffffff;
-            border-color: #38bdf8;
-            transform: translateY(-2px);
-        }
-
-        /* Search Box Wrapper */
+        /* Glassmorphism Wrapper */
         .search-wrapper {
             width: 100%;
             background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--border);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
-        /* Google CSE Overrides */
+        /* Google CSE Overrides - Ultra Modern */
         .gsc-control-cse {
             background-color: transparent !important;
             border: none !important;
             padding: 0 !important;
         }
 
+        .gsc-search-box {
+            margin-bottom: 0 !important;
+        }
+
+        table.gsc-search-box {
+            margin-bottom: 0 !important;
+        }
+
         input.gsc-input {
-            background-color: #0f172a !important;
+            background-color: rgba(15, 23, 42, 0.8) !important;
             color: #ffffff !important;
-            border-radius: 8px !important;
-            border: 1px solid #334155 !important;
-            padding: 10px 14px !important;
+            border-radius: 12px !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            padding: 14px 18px !important;
+            font-size: 1rem !important;
+            height: auto !important;
+        }
+
+        input.gsc-input:focus {
+            border-color: #a855f7 !important;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.2) !important;
+            outline: none !important;
         }
 
         .gsc-search-button-v2 {
-            background: var(--accent-gradient) !important;
-            border-radius: 8px !important;
+            background: var(--accent) !important;
+            border-radius: 12px !important;
             border: none !important;
-            padding: 10px 16px !important;
+            padding: 14px 22px !important;
+            cursor: pointer !important;
+        }
+
+        .gsc-search-button-v2 svg {
+            fill: #ffffff !important;
+            width: 18px !important; height: 18px !important;
+        }
+
+        /* Results Styling */
+        .gsc-results-wrapper-overlay, .gsc-results-wrapper-nooverlay {
+            background-color: transparent !important;
         }
 
         .gsc-webResult.gsc-result {
-            background-color: rgba(15, 23, 42, 0.6) !important;
-            border: 1px solid var(--border-color) !important;
-            border-radius: 10px !important;
-            margin-top: 10px !important;
-            padding: 14px !important;
+            background-color: rgba(15, 23, 42, 0.5) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 14px !important;
+            margin-top: 14px !important;
+            padding: 18px !important;
+            backdrop-filter: blur(8px);
         }
 
         .gs-title, .gs-title b {
             color: #38bdf8 !important;
             text-decoration: none !important;
+            font-size: 1.1rem !important;
         }
 
         .gs-snippet {
             color: #cbd5e1 !important;
+            font-size: 0.95rem !important;
+            margin-top: 6px !important;
+        }
+
+        .gsc-cursor-page {
+            background-color: rgba(30, 41, 59, 0.8) !important;
+            color: #38bdf8 !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 6px !important;
+            padding: 6px 12px !important;
         }
 
         footer {
             margin-top: auto;
-            padding-top: 30px;
-            color: #64748b;
+            color: #475569;
             font-size: 0.8rem;
+            padding-top: 40px;
         }
     </style>
 </head>
 <body>
 
-    <div class="glow"></div>
+    <div class="glow-1"></div>
 
     <div class="container">
         <header>
             <div class="logo">Bill Search</div>
-            <div class="subtitle">Custom Search Engine</div>
+            <div class="subtitle">Personalized Google Search</div>
         </header>
 
-        <div class="shortcuts">
-            <a href="https://github.com" target="_blank" class="shortcut-btn">GitHub</a>
-            <a href="https://youtube.com" target="_blank" class="shortcut-btn">YouTube</a>
-            <a href="https://chatgpt.com" target="_blank" class="shortcut-btn">ChatGPT</a>
-        </div>
-
         <div class="search-wrapper">
+            <!-- Google CSE Script with your Engine ID -->
             <script async src="https://cse.google.com/cse.js?cx=969b54edec37c4ed1"></script>
             <div class="gcse-search"></div>
         </div>
     </div>
 
     <footer>
-        &copy; 2026 Bill Search
+        &copy; 2026 Bill Search Engine
     </footer>
 
 </body>
