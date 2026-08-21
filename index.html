@@ -4,96 +4,215 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bill Search</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
-            background-color: #121212;
-            color: #e0e0e0;
+            background-color: #0f172a;
+            color: #f8fafc;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         header {
-            margin-top: 50px;
-            margin-bottom: 30px;
             text-align: center;
+            margin-bottom: 35px;
         }
 
-        h1 {
-            font-size: 3rem;
-            color: #4da6ff;
-            letter-spacing: 1px;
+        .logo {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
             margin-bottom: 8px;
         }
 
-        p {
-            color: #888;
+        .subtitle {
+            color: #94a3b8;
             font-size: 1rem;
+            font-weight: 400;
         }
 
-        .search-container {
+        /* Shortcuts Section */
+        .shortcuts {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .shortcut-btn {
+            background: #1e293b;
+            color: #cbd5e1;
+            border: 1px solid #334155;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .shortcut-btn:hover {
+            background: #334155;
+            color: #ffffff;
+            border-color: #475569;
+            transform: translateY(-1px);
+        }
+
+        /* Search Box Container */
+        .search-wrapper {
             width: 100%;
-            max-width: 700px;
-            background: #1e1e1e;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            background: #1e293b;
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid #334155;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
         }
 
-        /* Προσαρμογή εμφάνισης του Google Search Widget */
+        /* Override Google Custom Search Engine Styles */
         .gsc-control-cse {
             background-color: transparent !important;
             border: none !important;
             padding: 0 !important;
         }
 
-        .gsc-search-button-v2 {
-            background-color: #4da6ff !important;
-            border-radius: 6px !important;
+        .gsc-search-box {
+            margin-bottom: 0 !important;
+        }
+
+        table.gsc-search-box {
+            margin-bottom: 0 !important;
         }
 
         input.gsc-input {
-            background-color: #2a2a2a !important;
-            color: #ffffff !important;
-            border-radius: 6px !important;
-            border: 1px solid #333 !important;
+            background-color: #0f172a !important;
+            color: #f8fafc !important;
+            border-radius: 10px !important;
+            border: 1px solid #334155 !important;
+            padding: 12px 16px !important;
+            font-size: 1rem !important;
+            height: auto !important;
+        }
+
+        input.gsc-input:focus {
+            border-color: #38bdf8 !important;
+            outline: none !important;
+        }
+
+        .gsc-search-button-v2 {
+            background-color: #38bdf8 !important;
+            border-radius: 10px !important;
+            border: none !important;
+            padding: 12px 20px !important;
+            transition: background-color 0.2s ease;
+        }
+
+        .gsc-search-button-v2:hover {
+            background-color: #0284c7 !important;
+        }
+
+        .gsc-search-button-v2 svg {
+            fill: #0f172a !important;
+        }
+
+        /* Results Styling */
+        .gsc-results-wrapper-overlay, .gsc-results-wrapper-nooverlay {
+            background-color: transparent !important;
         }
 
         .gsc-webResult.gsc-result {
-            background-color: #1e1e1e !important;
-            border-bottom: 1px solid #2a2a2a !important;
+            background-color: #1e293b !important;
+            border: 1px solid #334155 !important;
+            border-radius: 12px !important;
+            margin-top: 12px !important;
+            padding: 16px !important;
         }
 
-        .gs-title b, .gs-title {
-            color: #82b1ff !important;
+        .gs-title, .gs-title b {
+            color: #38bdf8 !important;
+            text-decoration: none !important;
+            font-size: 1.1rem !important;
+        }
+
+        .gs-title:hover {
+            text-decoration: underline !important;
         }
 
         .gs-snippet {
-            color: #ccc !important;
+            color: #94a3b8 !important;
+            font-size: 0.95rem !important;
+            margin-top: 6px !important;
+        }
+
+        .gsc-url-top, .gsc-url-bottom {
+            color: #475569 !important;
+        }
+
+        .gsc-cursor-page {
+            background-color: #1e293b !important;
+            color: #38bdf8 !important;
+            border: 1px solid #334155 !important;
+            border-radius: 6px !important;
+            padding: 6px 12px !important;
+            margin-right: 6px !important;
+        }
+
+        footer {
+            margin-top: auto;
+            padding-top: 40px;
+            color: #64748b;
+            font-size: 0.85rem;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Bill Search</h1>
-        <p>Η δική σου προσαρμοσμένη μηχανή αναζήτησης</p>
-    </header>
+    <div class="container">
+        <header>
+            <div class="logo">Bill Search</div>
+            <div class="subtitle">Custom Search Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Desktop Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine Engine style0.5rem;">
+            <div class="subtitle">Personalized Google Search Engine</div>
+        </header>
 
-    <div class="search-container">
-        <!-- Εδώ φορτώνει η μηχανή αναζήτησης της Google -->
-        <script async src="https://cse.google.com/cse.js?cx=969b54edec37c4ed1"></script>
-        <div class="gcse-search"></div>
+        <div class="shortcuts">
+            <a href="https://github.com" target="_blank" class="shortcut-btn">GitHub</a>
+            <a href="https://youtube.com" target="_blank" class="shortcut-btn">YouTube</a>
+            <a href="https://chatgpt.com" target="_blank" class="shortcut-btn">ChatGPT</a>
+        </div>
+
+        <div class="search-wrapper">
+            <!-- Google CSE Script with your Engine ID -->
+            <script async src="https://cse.google.com/cse.js?cx=969b54edec37c4ed1"></script>
+            <div class="gcse-search"></div>
+        </div>
     </div>
+
+    <footer>
+        <p>&copy; 2026 Bill Search. All rights reserved.</p>
+    </footer>
 
 </body>
 </html>
